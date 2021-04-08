@@ -1,6 +1,6 @@
 FROM alpine:3.13
 
-ENV TERRAFORM_VERSION=0.14.9
+ENV TERRAFORM_VERSION=0.14.10
 
 VOLUME ["/data"]
 
@@ -13,6 +13,8 @@ RUN apk update && \
     cd /tmp && \
     wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin
+
+COPY terraform.d /root/terraform.d
 
 ARG VCS_REF
 

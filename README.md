@@ -1,3 +1,13 @@
+# zzxwill/docker-terraform
+
+- tag: 0.14.9
+  
+Terraform version is 0.14.9, and it's a long-running container.
+
+- tag: 0.14.10
+
+Terraform version is 0.14.10, and alibaba/null/template providers are built-in.
+
 # broadinstitute/docker-terraform
 [![](https://images.microbadger.com/badges/image/broadinstitute/terraform.svg)](http://microbadger.com/images/broadinstitute/terraform "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/broadinstitute/terraform.svg)](https://hub.docker.com/r/broadinstitute/terraform/)
