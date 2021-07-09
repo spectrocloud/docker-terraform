@@ -9,7 +9,7 @@ RUN \
   pip install azure-cli && \
   apk del --purge build
 
-ENV TERRAFORM_VERSION=0.14.10
+ENV TERRAFORM_VERSION=1.0.2
 
 VOLUME ["/data"]
 

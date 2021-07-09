@@ -1,11 +1,17 @@
 # Docker Terraform
 
-This repo is firstly forked from [broadinstitute/docker-terraform](https://github.com/broadinstitute/docker-terraform), and then copied into this repo as a
+The project is the Docker image, which includes a Terraform binary, common Terraform plugins.
+
+This repo was original forked from [broadinstitute/docker-terraform](https://github.com/broadinstitute/docker-terraform), and then copied into this repo as a
 non-forked repo due to the reason that [LFS don't allow large files to be uploaded into public forked project](https://github.com/git-lfs/git-lfs/issues/1906).
 
-This is a sub-project of [Terraform Controller](https://github.com/zzxwill/terraform-controller)
+This is a sub-project of [Terraform Controller](https://github.com/oam-dev/terraform-controller)
 
 # oam-dev/docker-terraform
+
+- tag: 1.0.2
+
+Terraform binary version is v1.0.2.
 
 - tag: 0.14.11
 
