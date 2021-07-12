@@ -1,1 +1,1 @@
-terraform.d/**/* filter=lfs diff=lfs merge=lfs -text
+.terraform.d/**/* filter=lfs diff=lfs merge=lfs -text
