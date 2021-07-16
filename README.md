@@ -10,12 +10,16 @@ This is a sub-project of [Terraform Controller](https://github.com/oam-dev/terra
 # Build the image
 
 ```shell
-$ docker build -t zzxwill/docker-terraform:$TAG .
+$ docker build -t oamdev/docker-terraform:$TAG .
 
-$ docker push zzxwill/docker-terraform:$TAG
+$ docker push oamdev/docker-terraform:$TAG
 ```
 
 # oam-dev/docker-terraform
+
+- tag: 1.0.3
+
+Sped up the build of this image.
 
 - tag: 1.0.2
 
