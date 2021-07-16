@@ -7,6 +7,14 @@ non-forked repo due to the reason that [LFS don't allow large files to be upload
 
 This is a sub-project of [Terraform Controller](https://github.com/oam-dev/terraform-controller)
 
+# Build the image
+
+```shell
+$ docker build -t zzxwill/docker-terraform:$TAG .
+
+$ docker push zzxwill/docker-terraform:$TAG
+```
+
 # oam-dev/docker-terraform
 
 - tag: 1.0.2
