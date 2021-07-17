@@ -1,6 +1,4 @@
-FROM zzxwill/docker-terraform-base:1.0.3-alpha-2
-
-RUN
+FROM oamdev/docker-terraform-base:1.0.3
 
 VOLUME ["/data"]
 
@@ -9,8 +7,8 @@ WORKDIR /data
 ENTRYPOINT ["tail", "-f", "/dev/null"]
 
 ENV TERRAFORM_VERSION=1.0.2
+COPY terraform_${TERRAFORM_VERSION}_linux_amd64.zip /tmp
 RUN cd /tmp && \
-    wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin
 
 ARG VCS_REF
