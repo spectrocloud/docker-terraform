@@ -17,6 +17,10 @@ $ docker push oamdev/docker-terraform:$TAG
 
 # oam-dev/docker-terraform
 
+- tag: 1.0.5
+
+Update base image
+
 - tag: 1.0.3
 
 Sped up the build of this image.
