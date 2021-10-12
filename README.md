@@ -17,6 +17,10 @@ $ docker push oamdev/docker-terraform:$TAG
 
 # oam-dev/docker-terraform
 
+- tag: 1.0.7
+
+Update base image
+
 - tag: 1.0.6
 
 Update base image
