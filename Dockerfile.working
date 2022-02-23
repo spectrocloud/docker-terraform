@@ -1,0 +1,67 @@
+FROM golang:alpine AS terraform-bundler-build
+
+RUN apk --no-cache add git unzip && \
+    git clone --single-branch --branch=v0.15 --depth=1 https://github.com/hashicorp/terraform.git
+
+RUN cd terraform && go install ./tools/terraform-bundle
+
+COPY terraform-bundle.hcl .
+
+RUN terraform-bundle package terraform-bundle.hcl && \
+    mkdir -p terraform-bundle && \
+    unzip -d terraform-bundle terraform_*.zip
+
+####################
+FROM alpine:3.13
+RUN \
+  apk update && \
+  apk add bash py-pip pkgconfig libvirt-dev libvirt-client g++&& \
+  apk add --virtual=build gcc libffi-dev musl-dev openssl-dev python3-dev make && \
+  apk add curl jq python3 ca-certificates git openssl unzip wget mysql-client && \
+  pip --no-cache-dir install -U pip && \
+  pip install azure-cli && \
+  apk del --purge build
+
+RUN apk add --no-cache cdrkit p7zip
+
+VOLUME ["/data"]
+
+WORKDIR /data
+
+ENV TERRAFORM_VERSION=1.0.2
+COPY terraform_${TERRAFORM_VERSION}_linux_amd64.zip /tmp
+RUN cd /tmp && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin
+COPY retrieve_tf_provider.sh /tmp
+COPY retrieve_tf_provider_github.sh /tmp
+
+COPY ossutil /usr/bin
+
+ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
+ENV RETRIEVE_TF_GITHUB_PROVIDER=/tmp/retrieve_tf_provider_github.sh
+
+RUN $RETRIEVE_TF_GITHUB_PROVIDER libvirt 0.6.14 dmacvicar
+RUN $RETRIEVE_TF_PROVIDER random 3.1.0
+RUN $RETRIEVE_TF_PROVIDER template 2.2.0
+RUN $RETRIEVE_TF_PROVIDER kubernetes 2.7.1
+
+RUN $RETRIEVE_TF_PROVIDER null 3.1.0
+RUN $RETRIEVE_TF_PROVIDER vsphere 2.0.2
+RUN $RETRIEVE_TF_PROVIDER local 2.1.0
+#
+#COPY providers.tf .
+#RUN mkdir /providers && mv providers.tf /providers && cd /providers && terraform init && rm providers.tf
+
+RUN mkdir -p  /root/.terraform.d/plugin-cache/
+RUN mkdir -p  /providers/.terraform.d/plugin-cache/
+
+RUN cp -r .terraform.d /root/.terraform.d
+RUN cp -r .terraform.d /providers/.terraform.d
+
+
+COPY --from=terraform-bundler-build /go/terraform-bundle/* /usr/local/bin/
+
+RUN mkdir debug
+COPY resource.tf debug/resource.tf
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]
