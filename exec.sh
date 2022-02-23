@@ -1,7 +1,7 @@
 INPUT=$1
 
 if [[ ${INPUT} == 'apply' ]]; then
-  if terraform %s -lock=false -auto-approve ; then
+  if terraform apply -lock=false -auto-approve ; then
     echo "Applied successfully.."
   else
     echo "Apply failed.. Thus cleaning it up.."
