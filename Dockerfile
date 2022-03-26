@@ -38,24 +38,11 @@ RUN $RETRIEVE_TF_PROVIDER kubernetes 2.7.1
 RUN $RETRIEVE_TF_PROVIDER null 3.1.0
 RUN $RETRIEVE_TF_PROVIDER vsphere 2.0.2
 RUN $RETRIEVE_TF_PROVIDER local 2.1.0
-#
-#COPY providers.tf .
-#RUN mkdir /providers && mv providers.tf /providers && cd /providers && terraform init && rm providers.tf
+RUN $RETRIEVE_TF_PROVIDER aws 4.8.0
 
-RUN cp -r .terraform.d /root/.terraform.d
 RUN cp -r .terraform.d /providers
 
-#COPY oras/oras_0.12.0_linux_amd64.tar.gz .
-#RUN mkdir -p oras-install/
-#RUN tar -zxf oras_0.12.0_*.tar.gz -C oras-install/
-#RUN mv oras-install/oras ./oras
-#RUN chmod +x ./oras
-#RUN rm -rf oras_0.12.0_*.tar.gz oras-install/
-#
 COPY exec.sh /providers/exec.sh
 RUN chmod +x /providers/exec.sh
-
-#RUN mkdir debug
-#COPY resource.tf debug/resource.tf
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]

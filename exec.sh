@@ -1,12 +1,14 @@
 INPUT=$1
 
+if terraform init --plugin-dir /providers/plugins > /dev/null 2>&1; then
+  terraform init --plugin-dir /providers/plugins # first check if provider is cached locally and if it is not present then download
+else
+  rm -rf .terraform* /root/.terraform* # folder & lock file from last init command must be removed
+  terraform init
+fi
+
 if [[ ${INPUT} == 'apply' ]]; then
-  if terraform apply -lock=false -auto-approve ; then
-    echo "Applied successfully.."
-  else
-    echo "Apply failed.. Thus cleaning it up.."
-    terraform destroy -lock=false -auto-approve
-  fi
+  terraform apply -lock=false -auto-approve
 else
   terraform destroy -lock=false -auto-approve
 fi
