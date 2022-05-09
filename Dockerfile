@@ -13,7 +13,7 @@ VOLUME ["/data"]
 
 WORKDIR /data
 
-ENV TERRAFORM_VERSION=1.0.2
+ENV TERRAFORM_VERSION=1.1.9
 COPY terraform_${TERRAFORM_VERSION}_linux_amd64.zip /tmp
 RUN cd /tmp && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin
