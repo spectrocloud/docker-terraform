@@ -8,6 +8,8 @@ RUN \
   pip install azure-cli && \
   apk del --purge build
 
+RUN apk add --update --no-cache openssh sshpass
+
 RUN apk add --no-cache cdrkit p7zip
 
 VOLUME ["/data"]
