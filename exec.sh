@@ -11,7 +11,7 @@ function exec_cmd() {
   fi
 }
 
-[ ! -z "$PREEXECCMD" ] && echo "pre exec command: $POSTEXECCMD"; exec_cmd "${PREEXECCMD}"
+[ ! -z "$PREEXECCMD" ] && echo "pre exec command: $PREEXECCMD"; exec_cmd "${PREEXECCMD}"
 
 if terraform init --plugin-dir /providers/plugins > /dev/null 2>&1; then
   terraform init --plugin-dir /providers/plugins # first check if provider is cached locally and if it is not present then download
