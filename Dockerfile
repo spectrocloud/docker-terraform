@@ -25,8 +25,13 @@ COPY retrieve_tf_provider_github.sh /tmp
 COPY retrieve_tf_provider_http.sh /tmp
 
 COPY ossutil /usr/bin
-RUN mkdir -p /rishi
-COPY oras/terraform-provider-libvirt_v0.6.14 /rishi
+COPY oras/oras_0.12.0_linux_amd64.tar.gz .
+RUN mkdir -p oras-install/
+RUN tar -zxf oras_0.12.0_*.tar.gz -C oras-install/
+RUN mv oras-install/oras /usr/bin/oras
+RUN chmod +x /usr/bin/oras
+RUN rm -rf oras_0.12.0_*.tar.gz oras-install/
+
 COPY kubectl/kubectl-1.21.2-linux-amd64 /usr/bin/kubectl
 
 ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
