@@ -27,7 +27,7 @@ COPY retrieve_tf_provider_http.sh /tmp
 COPY ossutil /usr/bin
 RUN mkdir -p /rishi
 COPY oras/terraform-provider-libvirt_v0.6.14 /rishi
-COPY kubectl/kubectl-1.24.2-linux-amd64 /usr/bin/kubectl
+COPY kubectl/kubectl-1.21.2-linux-amd64 /usr/bin/kubectl
 
 ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
 ENV RETRIEVE_TF_GITHUB_PROVIDER=/tmp/retrieve_tf_provider_github.sh
