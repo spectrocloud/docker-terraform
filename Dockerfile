@@ -11,6 +11,8 @@ RUN \
 RUN apk add --update --no-cache openssh sshpass
 
 RUN apk add --no-cache cdrkit p7zip
+RUN echo "http://dl-3.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories
+RUN apk add --update --no-cache govc
 
 VOLUME ["/data"]
 
