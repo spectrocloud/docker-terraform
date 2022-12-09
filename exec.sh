@@ -11,6 +11,13 @@ function exec_cmd() {
   fi
 }
 
+pod_name=$(/bin/hostname)
+file_name=/opt/spectrocloud/logs/$pod_name.log
+
+trap "kubectl logs $pod_name > $file_name; exit 0" SIGINT
+
+trap "kubectl logs $pod_name > $file_name; exit 0" SIGTERM
+
 [ ! -z "$PREEXECCMD" ] && echo "pre exec command: $PREEXECCMD"; exec_cmd "${PREEXECCMD}"
 
 if terraform init --plugin-dir /providers/plugins > /dev/null 2>&1; then
