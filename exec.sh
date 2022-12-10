@@ -11,12 +11,21 @@ function exec_cmd() {
   fi
 }
 
+mkdir -p /opt/spectrocloud/logs/tf-pods
 pod_name=$(/bin/hostname)
-file_name=/opt/spectrocloud/logs/$pod_name.log
+file_name=/opt/spectrocloud/logs/tf-pods/$pod_name.log
 
-trap "kubectl logs $pod_name > $file_name; exit 0" SIGINT
+if [[ $PERSIST_POD_LOGS_SIGINT == "true" ]]; then
+  trap "kubectl logs $pod_name > $file_name; exit 0" SIGINT
+fi
 
-trap "kubectl logs $pod_name > $file_name; exit 0" SIGTERM
+if [[ $PERSIST_POD_LOGS_SIGTERM == "true" ]]; then
+  trap "kubectl logs $pod_name > $file_name; exit 0" SIGTERM
+fi
+
+if [[ $PERSIST_POD_LOGS == "true" ]]; then
+  trap "kubectl logs $pod_name > $file_name; exit 0" EXIT
+fi
 
 [ ! -z "$PREEXECCMD" ] && echo "pre exec command: $PREEXECCMD"; exec_cmd "${PREEXECCMD}"
 
