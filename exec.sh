@@ -11,6 +11,27 @@ function exec_cmd() {
   fi
 }
 
+function persistLog(){
+  mkdir -p /opt/spectrocloud/logs/tf-pods
+  pod_name=$(/bin/hostname)
+  file_name=/opt/spectrocloud/logs/tf-pods/$pod_name.log
+  kubectl logs $pod_name -n $NAMESPACE > $file_name;
+  kubectl logs -l app=terraform-controller -n $NAMESPACE --since=30s >> $file_name
+  rm -rf `ls -t /opt/spectrocloud/logs/tf-pods/ | awk 'NR>200'`
+}
+
+if [[ $PERSIST_POD_LOGS_SIGINT == "true" ]]; then
+  trap "persistLog; exit 0" SIGINT
+fi
+
+if [[ $PERSIST_POD_LOGS_SIGTERM == "true" ]]; then
+  trap "persistLog; exit 0" SIGTERM
+fi
+
+if [[ $PERSIST_POD_LOGS == "true" ]]; then
+  trap "persistLog; exit 0" EXIT
+fi
+
 [ ! -z "$PREEXECCMD" ] && echo "pre exec command: $PREEXECCMD"; exec_cmd "${PREEXECCMD}"
 
 if terraform init --plugin-dir /providers/plugins > /dev/null 2>&1; then

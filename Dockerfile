@@ -8,6 +8,9 @@ RUN \
   pip install azure-cli && \
   apk del --purge build
 
+RUN wget https://github.com/vmware/govmomi/releases/download/v0.21.0/govc_linux_amd64.gz && \
+gunzip govc_linux_amd64.gz && chmod +x govc_linux_amd64 && mv govc_linux_amd64 /usr/local/bin/govc
+
 RUN apk add --update --no-cache openssh sshpass
 
 RUN apk add --no-cache cdrkit p7zip
