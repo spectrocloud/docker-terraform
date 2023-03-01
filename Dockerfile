@@ -1,4 +1,4 @@
-FROM alpine:3.13
+FROM alpine:3.17.2
 RUN \
   apk update && \
   apk add bash py-pip pkgconfig libvirt-dev libvirt-client g++&& \
@@ -19,40 +19,53 @@ VOLUME ["/data"]
 
 WORKDIR /data
 
-ENV TERRAFORM_VERSION=1.0.2
+ENV TERRAFORM_VERSION=1.3.9
 COPY terraform_${TERRAFORM_VERSION}_linux_amd64.zip /tmp
 RUN cd /tmp && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin
-COPY retrieve_tf_provider.sh /tmp
-COPY retrieve_tf_provider_github.sh /tmp
-COPY retrieve_tf_provider_http.sh /tmp
+# COPY retrieve_tf_provider.sh /tmp
+# COPY retrieve_tf_provider_github.sh /tmp
+# COPY retrieve_tf_provider_http.sh /tmp
 
-COPY ossutil /usr/bin
-COPY oras/oras_0.12.0_linux_amd64.tar.gz .
+# COPY ossutil /usr/bin
+COPY oras/oras_1.0.0-rc.1_linux_amd64.tar.gz .
 RUN mkdir -p oras-install/
-RUN tar -zxf oras_0.12.0_*.tar.gz -C oras-install/
+RUN tar -zxf oras_1.0.0-rc.1_linux_amd64.tar.gz -C oras-install/
 RUN mv oras-install/oras /usr/bin/oras
 RUN chmod +x /usr/bin/oras
-RUN rm -rf oras_0.12.0_*.tar.gz oras-install/
+RUN rm -rf oras_1.0.0-rc.1_linux_amd64.tar.gz oras-install/
 
-COPY kubectl/kubectl-1.21.2-linux-amd64 /usr/bin/kubectl
+COPY kubectl/kubectl-1.26.2-linux-amd64 /usr/bin/kubectl
 
-ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
-ENV RETRIEVE_TF_GITHUB_PROVIDER=/tmp/retrieve_tf_provider_github.sh
-ENV RETRIEVE_TF_HTTP_PROVIDER=/tmp/retrieve_tf_provider_http.sh
+RUN mkdir -p /providers/plugins/registry.terraform.io/dmacvicar/libvirt/v0.7.1
+COPY terraform-providers/terraform-provider-libvirt_v0.7.1 /providers/plugins/registry.terraform.io/dmacvicar/libvirt/v0.7.1/linux_amd64
 
-RUN $RETRIEVE_TF_HTTP_PROVIDER libvirt 0.6.14 dmacvicar
-RUN $RETRIEVE_TF_PROVIDER random 3.1.0
-RUN $RETRIEVE_TF_PROVIDER template 2.2.0
-RUN $RETRIEVE_TF_PROVIDER kubernetes 2.7.1
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/kubernetes/2.18.1
+COPY terraform-providers/terraform-provider-kubernetes_v2.18.1_x5 /providers/plugins/registry.terraform.io/hashicorp/kubernetes/2.18.1/linux_amd64
 
-RUN $RETRIEVE_TF_PROVIDER null 3.1.0
-RUN $RETRIEVE_TF_PROVIDER vsphere 2.2.0
-RUN $RETRIEVE_TF_PROVIDER local 2.1.0
-RUN $RETRIEVE_TF_PROVIDER aws 4.8.0
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/null/3.2.1
+COPY terraform-providers/terraform-provider-null_v3.2.1_x5 /providers/plugins/registry.terraform.io/hashicorp/null/3.2.1/linux_amd64
 
-RUN cp -r .terraform.d /providers
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/vsphere/2.3.1
+COPY terraform-providers/terraform-provider-vsphere_v2.3.1_x5 /providers/plugins/registry.terraform.io/hashicorp/vsphere/2.3.1/linux_amd64
 
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/random/3.4.3
+COPY terraform-providers/terraform-provider-random_v3.4.3_x5 /providers/plugins/registry.terraform.io/hashicorp/random/3.4.3/linux_amd64
+
+# ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
+# ENV RETRIEVE_TF_GITHUB_PROVIDER=/tmp/retrieve_tf_provider_github.sh
+# ENV RETRIEVE_TF_HTTP_PROVIDER=/tmp/retrieve_tf_provider_http.sh
+
+# RUN $RETRIEVE_TF_PROVIDER template 2.2.0
+# RUN $RETRIEVE_TF_PROVIDER random 3.4.3
+# RUN $RETRIEVE_TF_PROVIDER kubernetes 2.18.1
+
+# RUN $RETRIEVE_TF_PROVIDER null 3.2.1
+# RUN $RETRIEVE_TF_PROVIDER vsphere 2.3.1
+# RUN $RETRIEVE_TF_PROVIDER local 2.3.0
+# RUN $RETRIEVE_TF_PROVIDER aws 4.56.0
+
+# RUN cp -r .terraform.d /providers
 COPY exec.sh /providers/exec.sh
 RUN chmod +x /providers/exec.sh
 
