@@ -37,20 +37,20 @@ RUN rm -rf oras_1.0.0-rc.1_linux_amd64.tar.gz oras-install/
 
 COPY kubectl/kubectl-1.26.2-linux-amd64 /usr/bin/kubectl
 
-RUN mkdir -p /providers/plugins/registry.terraform.io/dmacvicar/libvirt/v0.7.1
-COPY terraform-providers/terraform-provider-libvirt_v0.7.1 /providers/plugins/registry.terraform.io/dmacvicar/libvirt/v0.7.1/linux_amd64
+RUN mkdir -p /providers/plugins/registry.terraform.io/dmacvicar/libvirt/0.7.1/linux_amd64/
+COPY terraform-providers/terraform-provider-libvirt_v0.7.1 /providers/plugins/registry.terraform.io/dmacvicar/libvirt/0.7.1/linux_amd64/
 
-RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/kubernetes/2.18.1
-COPY terraform-providers/terraform-provider-kubernetes_v2.18.1_x5 /providers/plugins/registry.terraform.io/hashicorp/kubernetes/2.18.1/linux_amd64
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/kubernetes/2.18.1/linux_amd64/
+COPY terraform-providers/terraform-provider-kubernetes_v2.18.1_x5 /providers/plugins/registry.terraform.io/hashicorp/kubernetes/2.18.1/linux_amd64/
 
-RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/null/3.2.1
-COPY terraform-providers/terraform-provider-null_v3.2.1_x5 /providers/plugins/registry.terraform.io/hashicorp/null/3.2.1/linux_amd64
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/null/3.2.1/linux_amd64/
+COPY terraform-providers/terraform-provider-null_v3.2.1_x5 /providers/plugins/registry.terraform.io/hashicorp/null/3.2.1/linux_amd64/
 
-RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/vsphere/2.3.1
-COPY terraform-providers/terraform-provider-vsphere_v2.3.1_x5 /providers/plugins/registry.terraform.io/hashicorp/vsphere/2.3.1/linux_amd64
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/vsphere/2.3.1/linux_amd64/
+COPY terraform-providers/terraform-provider-vsphere_v2.3.1_x5 /providers/plugins/registry.terraform.io/hashicorp/vsphere/2.3.1/linux_amd64/
 
-RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/random/3.4.3
-COPY terraform-providers/terraform-provider-random_v3.4.3_x5 /providers/plugins/registry.terraform.io/hashicorp/random/3.4.3/linux_amd64
+RUN mkdir -p /providers/plugins/registry.terraform.io/hashicorp/random/3.4.3/linux_amd64/
+COPY terraform-providers/terraform-provider-random_v3.4.3_x5 /providers/plugins/registry.terraform.io/hashicorp/random/3.4.3/linux_amd64/
 
 # ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
 # ENV RETRIEVE_TF_GITHUB_PROVIDER=/tmp/retrieve_tf_provider_github.sh
