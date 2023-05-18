@@ -1,4 +1,4 @@
-FROM alpine:3.17.2
+FROM alpine:3.17.3
 RUN \
   apk update && \
   apk add bash py-pip pkgconfig libvirt-dev libvirt-client g++&& \
@@ -19,7 +19,7 @@ VOLUME ["/data"]
 
 WORKDIR /data
 
-ENV TERRAFORM_VERSION=1.4.1
+ENV TERRAFORM_VERSION=1.4.6
 COPY terraform_${TERRAFORM_VERSION}_linux_amd64.zip /tmp
 RUN cd /tmp && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin
@@ -35,7 +35,7 @@ RUN mv oras-install/oras /usr/bin/oras
 RUN chmod +x /usr/bin/oras
 RUN rm -rf oras_1.0.0-rc.2_linux_amd64.tar.gz oras-install/
 
-COPY kubectl/kubectl-1.26.2-linux-amd64 /usr/bin/kubectl
+COPY kubectl/kubectl-1.27.1-linux-amd64 /usr/bin/kubectl
 
 ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
 ENV RETRIEVE_TF_GITHUB_PROVIDER=/tmp/retrieve_tf_provider_github.sh

@@ -41,10 +41,20 @@ else
   exec_cmd "terraform init"
 fi
 
+TAINTS=$(kubectl get cm $TF_VAR_VM_NAME-taint -o jsonpath='{.binaryData.taintAddress}' | base64 -d)
+if [[ -n "$TAINTS" && "$INPUT" == "apply" ]]; then
+  exec_cmd "terraform plan $TAINTS -lock=false -out=plan.out"
+fi
+
 if [[ ${INPUT} == 'apply' ]]; then
-  exec_cmd "terraform apply -lock=false -auto-approve"
+  if [ -f "plan.out" ]; then
+    exec_cmd "terraform apply plan.out"
+    kubectl delete cm $TF_VAR_VM_NAME-taint
+  else
+    exec_cmd "terraform apply -lock=false -auto-approve"
+  fi
 else
-    exec_cmd "terraform destroy -lock=false -auto-approve"
+  exec_cmd "terraform destroy -lock=false -auto-approve"
 fi
 
 [ ! -z "$POSTEXECCMD" ] && echo "post exec command: $POSTEXECCMD"; exec_cmd "${POSTEXECCMD}"
