@@ -1,7 +1,7 @@
 FROM alpine:3.17.3
 RUN \
   apk update && \
-  apk add bash py-pip pkgconfig libvirt-dev libvirt-client libxslt g++&& \
+  apk add bash py-pip pkgconfig libvirt-dev libvirt-client libxslt g++ && \
   apk add --virtual=build gcc libffi-dev musl-dev openssl-dev python3-dev make && \
   apk add curl jq python3 ca-certificates git openssl unzip wget mysql-client && \
   pip --no-cache-dir install -U pip && \
