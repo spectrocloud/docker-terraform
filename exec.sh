@@ -34,6 +34,22 @@ fi
 
 [ ! -z "$PREEXECCMD" ] && echo "pre exec command: $PREEXECCMD"; exec_cmd "${PREEXECCMD}"
 
+# Specific to GE
+if [[ $TF_VAR_LAYER_NAME ]] && [[ $TF_VAR_DEPLOYMENT_MODE ]]; then 
+    if [[ $TF_VAR_LAYER_NAME == "active" ]] && [[ $TF_VAR_DEPLOYMENT_MODE == "standalone" ]]; then
+        echo "do not deploy active in standalone mode"
+        exit 0
+    fi
+    if [[ $TF_VAR_LAYER_NAME == "standby" ]] && [[ $TF_VAR_DEPLOYMENT_MODE == "standalone" ]]; then
+        echo "do not deploy standby in standalone mode"
+        exit 0
+    fi
+    if [[ $TF_VAR_LAYER_NAME == "standalone" ]] && [[ $TF_VAR_DEPLOYMENT_MODE == "ha" ]]; then
+        echo "do not deploy standalone in ha mode"
+        exit 0
+    fi
+fi
+
 if terraform init --plugin-dir /providers/plugins > /dev/null 2>&1; then
   terraform init --plugin-dir /providers/plugins # first check if provider is cached locally and if it is not present then download
 else
