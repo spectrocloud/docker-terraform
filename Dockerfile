@@ -1,4 +1,4 @@
-FROM alpine:3.17.3
+FROM alpine:3.18.0
 RUN \
   apk update && \
   apk add bash py-pip pkgconfig libvirt-dev libvirt-client libxslt g++ && \
@@ -19,7 +19,7 @@ VOLUME ["/data"]
 
 WORKDIR /data
 
-ENV TERRAFORM_VERSION=1.4.6
+ENV TERRAFORM_VERSION=1.5.0
 COPY terraform_${TERRAFORM_VERSION}_linux_amd64.zip /tmp
 RUN cd /tmp && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin
