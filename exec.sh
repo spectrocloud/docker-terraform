@@ -37,15 +37,15 @@ fi
 # Specific to GE
 if [[ $TF_VAR_LAYER_NAME ]] && [[ $TF_VAR_DEPLOYMENT_MODE ]]; then 
     if [[ $TF_VAR_LAYER_NAME == "active" ]] && [[ $TF_VAR_DEPLOYMENT_MODE == "standalone" ]]; then
-        echo "do not deploy active in standalone mode"
+        echo "skip active-gateway deployment in standalone mode"
         exit 0
     fi
     if [[ $TF_VAR_LAYER_NAME == "standby" ]] && [[ $TF_VAR_DEPLOYMENT_MODE == "standalone" ]]; then
-        echo "do not deploy standby in standalone mode"
+        echo "skip standby-gateway deployment in standalone mode"
         exit 0
     fi
     if [[ $TF_VAR_LAYER_NAME == "standalone" ]] && [[ $TF_VAR_DEPLOYMENT_MODE == "ha" ]]; then
-        echo "do not deploy standalone in ha mode"
+        echo "skip standalone-gateway deployment in ha mode"
         exit 0
     fi
 fi
