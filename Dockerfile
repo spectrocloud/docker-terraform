@@ -1,4 +1,4 @@
-FROM alpine:3.18.0
+FROM gcr.io/spectro-images-public/golang:1.19-alpine
 RUN \
   apk update && \
   apk add bash py-pip pkgconfig libvirt-dev libvirt-client libxslt g++ && \
