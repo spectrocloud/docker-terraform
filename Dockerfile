@@ -1,13 +1,12 @@
-ARG BUILDER_GOLANG_VERSION
-FROM --platform=$TARGETPLATFORM gcr.io/spectro-images-public/golang:${BUILDER_GOLANG_VERSION}-alpine as builder
+FROM alpine:3.18
 RUN \
   apk update && \
-  apk add bash py-pip libvirt-dev libvirt-client libxslt g++ && \
-  apk add --virtual=build gcc libffi-dev openssl-dev python3-dev make && \
-  apk add curl jq python3 ca-certificates git openssl unzip wget && \
-  pip --no-cache-dir install -U pip && \
+  apk add bash libvirt-dev libvirt-client libxslt && \
+  apk add --virtual=build libffi-dev make && \
+  apk add curl jq unzip wget && \
   apk del --purge build
 RUN apk add --update --no-cache openssh sshpass
+RUN apk upgrade curl
 
 VOLUME ["/data"]
 
