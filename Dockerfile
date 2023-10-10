@@ -5,6 +5,7 @@ RUN \
   apk add --virtual=build libffi-dev make && \
   apk add curl jq unzip wget && \
   apk del --purge build
+RUN apk add --no-cache cdrkit p7zip
 RUN apk add --update --no-cache openssh sshpass
 RUN apk upgrade curl
 
