@@ -12,6 +12,14 @@ TERRAFORM_DIR=.terraform.d/plugins/registry.terraform.io/hashicorp
 HASHICORP_RELEASE_DOMAIN=https://releases.hashicorp.com
 
 PROVIDER_RUL=$HASHICORP_RELEASE_DOMAIN/terraform-provider-"$PROVIDER_NAME"/"$PROVIDER_VERSION"/terraform-provider-"$PROVIDER_NAME"_"$PROVIDER_VERSION"_linux_amd64.zip
+
+files_to_delete="CHANGELOG.md LICENSE README.md"
+for file in $files_to_delete; do
+ if [ -f $file ]; then
+   rm $file;
+ fi;
+done
+
 wget "$PROVIDER_RUL" -O provider.zip &&
   unzip provider.zip &&
   chmod +x terraform-provider-"$PROVIDER_NAME"_* &&

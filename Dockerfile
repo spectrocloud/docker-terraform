@@ -31,6 +31,11 @@ RUN $RETRIEVE_TF_PROVIDER kubernetes 2.23.0
 RUN $RETRIEVE_TF_PROVIDER null 3.2.1
 RUN $RETRIEVE_TF_PROVIDER vsphere 2.4.3
 
+# deprecated providers
+RUN $RETRIEVE_TF_PROVIDER random  3.4.3
+RUN $RETRIEVE_TF_PROVIDER kubernetes 2.18.1
+RUN $RETRIEVE_TF_PROVIDER vsphere 2.3.1
+
 RUN cp -r .terraform.d /providers
 
 RUN mkdir -p /providers/plugins/registry.terraform.io/dmacvicar/libvirt/0.7.1/linux_amd64/
