@@ -19,6 +19,7 @@ COPY retrieve_tf_provider_http.sh /tmp
 COPY bin/terraform /usr/bin
 COPY bin/govc /usr/local/bin/govc
 COPY bin/kubectl /usr/local/bin/kubectl
+COPY bin/oras /usr/local/bin/oras
 
 ENV RETRIEVE_TF_PROVIDER=/tmp/retrieve_tf_provider.sh
 ENV RETRIEVE_TF_GITHUB_PROVIDER=/tmp/retrieve_tf_provider_github.sh

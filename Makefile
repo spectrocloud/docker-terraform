@@ -28,3 +28,7 @@ upgrade-kubectl-bin:
 .PHONY: upgrade-govc-bin
 upgrade-govc-bin:
 	bash hack/upgrade-govc-bin.sh 
+
+.PHONY: upgrade-oras-bin
+upgrade-oras-bin:
+	bash hack/upgrade-oras-bin.sh 
